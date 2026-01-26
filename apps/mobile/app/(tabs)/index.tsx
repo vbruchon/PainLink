@@ -1,9 +1,10 @@
-import { View, Text } from 'react-native';
+import { Screen } from '@/components/ui/screen';
+import { Text } from '@/components/ui/text';
 
 export default function HomeScreen() {
   return (
-    <View className="flex-1 items-center justify-center bg-white">
-      <Text className="text-4xl font-bold text-green-500">Expo + Nativewind OK </Text>
-    </View>
+    <Screen className="items-center justify-center">
+      <Text variant="h1">Expo + Nativewind OK </Text>
+    </Screen>
   );
 }

@@ -11,7 +11,7 @@
     "lint": "eslint .",
     "check": "pnpm format && pnpm lint && pnpm typecheck",
     "dev:web": "pnpm --dir apps/web dev",
-    "dev:mobile": "pnpm --dir apps/mobile start"
+    "dev:mobile": "pnpm --dir apps/mobile start --clear"
   },
   "keywords": [],
   "author": "",

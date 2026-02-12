@@ -7,3 +7,5 @@ coverage
 .expo
 .expo-shared
 pnpm-lock.yaml
+apps/web/app/generated/prisma/**
+**/next-env.d.ts

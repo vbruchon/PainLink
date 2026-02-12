@@ -1,10 +1,16 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { Redirect, Tabs } from 'expo-router';
 
-import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { getRedirectForLayouts } from '@/lib/auth/guard';
+import { HapticTab } from '@/components/haptic-tab';
+import { useAuth } from '@/providers/auth-provider';
 
 export default function TabLayout() {
+  const { status } = useAuth();
+  const redirect = getRedirectForLayouts({ status, inAuthGroup: false, inTabsGroup: true });
+
+  if (redirect) return <Redirect href={redirect} />;
+
   return (
     <Tabs
       screenOptions={{
@@ -18,13 +24,6 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
         }}
       />
     </Tabs>

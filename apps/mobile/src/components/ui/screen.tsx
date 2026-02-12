@@ -6,6 +6,6 @@ type Props = ViewProps & {
   className?: string;
 };
 
-export function Screen({ className, ...props }: Props) {
+export const Screen = ({ className, ...props }: Props) => {
   return <SafeAreaView className={clsx('flex-1 bg-background p-4', className)} {...props} />;
-}
+};

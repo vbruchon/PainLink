@@ -5,14 +5,10 @@ import { Text } from '@/components/ui/text';
 export default function ModalScreen() {
   return (
     <View className="flex-1 items-center justify-center bg-background p-5">
-      <Text variant="title" weight="bold">
-        This is a modal
-      </Text>
+      <Text variant="h1">This is a modal</Text>
 
       <Link href="/" dismissTo className="mt-4">
-        <Text className="text-primary" weight="semibold">
-          Go to home screen
-        </Text>
+        <Text className="text-primary">Go to home screen</Text>
       </Link>
     </View>
   );

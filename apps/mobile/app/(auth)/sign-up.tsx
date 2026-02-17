@@ -40,7 +40,7 @@ export default function SignUpScreen() {
 
       <View className="mt-8 absolute -bottom-10 -right-10">
         <Image
-          source={require('../../assets/images/mascotte/Painlink_Nexi_Heureux.png')}
+          source={require('../../src/assets/images/mascotte/Painlink_Nexi_Heureux.png')}
           resizeMode="contain"
           className="size-[200px] -rotate-12"
           accessibilityIgnoresInvertColors

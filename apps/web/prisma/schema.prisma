@@ -14,19 +14,47 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
+  id            String  @id @default(cuid())
+  email         String  @unique
   name          String
-  emailVerified Boolean   @default(false)
+  emailVerified Boolean @default(false)
   image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  sessions      Session[]
-  accounts      Account[]
+
+  mainPainZone BodyRegionId?
+
+  sessions Session[]
+  accounts Account[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("user")
 }
 
+enum BodyRegionId {
+  head
+  neck
+  shoulder_left
+  shoulder_right
+  upper_arm_left
+  upper_arm_right
+  lower_arm_left
+  lower_arm_right
+  hand_left
+  hand_right
+  chest
+  belly
+  upper_back
+  lower_back
+  thigh_left
+  thigh_right
+  lower_leg_left
+  lower_leg_right
+  foot_left
+  foot_right
+}
+
+//AUTH
 model Session {
   id        String   @id
   expiresAt DateTime

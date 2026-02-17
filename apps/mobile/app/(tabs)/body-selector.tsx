@@ -4,12 +4,15 @@ import { router } from 'expo-router';
 
 import { Text } from '@/components/ui/text';
 import { Header } from '@/components/ui/header';
-import type { BodyRegionId, BodySide } from '@/components/body-selector/regions';
-import { BODY_REGION_LABEL } from '@/components/body-selector/regions';
 import { SideToggle } from '@/components/body-selector/side-toggle';
 import { BodyRegionPicker } from '@/components/body-selector/body-region-picker';
 import { BodySelectionSheet } from '@/components/body-selector/body-selection-sheet';
 import { Screen } from '@/components/ui/screen';
+import { updateMainPainZone } from '@/lib/user/user-api';
+import { BODY_REGION_LABEL } from '@painlink/shared';
+
+import type { BodyRegionId } from '@painlink/shared';
+import type { BodySide } from '@/components/body-selector/body';
 
 export default function BodySelectorScreen() {
   const [side, setSide] = useState<BodySide>('front');
@@ -18,12 +21,24 @@ export default function BodySelectorScreen() {
   const regionLabel = useMemo(() => (region ? BODY_REGION_LABEL[region] : null), [region]);
   const canSave = !!region;
 
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const onSave = async () => {
     if (!region) return;
-    // TODO: persister la zone principale
-    // await updateUserPainMainRegion({ region })
 
-    router.back();
+    try {
+      setSaving(true);
+      setError(null);
+
+      await updateMainPainZone(region);
+
+      router.push('/(tabs)/test-auth');
+    } catch (e: any) {
+      setError(e?.message ?? "Impossible d'enregistrer");
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -54,6 +69,8 @@ export default function BodySelectorScreen() {
         label={regionLabel}
         onClear={() => setRegion(null)}
         onSave={onSave}
+        error={error}
+        isSaving={saving}
       />
     </View>
   );

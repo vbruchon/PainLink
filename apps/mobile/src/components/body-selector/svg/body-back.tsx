@@ -1,8 +1,8 @@
 import { G, Path } from 'react-native-svg';
 
-import type { BodyRegionId } from '../regions';
 import { BodySvgRoot } from './body-svg-root';
 import { useBodySvg } from '@/hooks/body-selector/use-body-svg';
+import { type BodyRegionId } from '@painlink/shared';
 
 type Props = {
   value: BodyRegionId | null;

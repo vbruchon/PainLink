@@ -1,5 +1,5 @@
 import { Pressable, View } from 'react-native';
-import { BodySide } from './regions';
+import type { BodySide } from './body';
 import { Text } from '@/components/ui/text';
 
 export const SideToggle = ({

@@ -1,11 +1,12 @@
-import { Pressable, Text as RNText, ActivityIndicator } from 'react-native';
+import React from 'react';
+import { Pressable, Text as RNText, ActivityIndicator, View } from 'react-native';
 import { clsx } from 'clsx';
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'social';
 type ButtonSize = 'md' | 'lg';
 
 type Props = {
-  children: string;
+  children: React.ReactNode;
   onPress?: () => void;
   variant?: ButtonVariant;
   size?: ButtonSize;
@@ -40,6 +41,8 @@ export const Button = ({
   const textColor =
     variant === 'ghost' ? 'text-primary' : variant === 'social' ? 'text-primary' : 'text-white';
 
+  const showSpinner = loading;
+
   return (
     <Pressable
       onPress={onPress}
@@ -52,10 +55,21 @@ export const Button = ({
         className,
       )}
     >
-      {loading ? (
-        <ActivityIndicator color="white" />
-      ) : (
+      {showSpinner ? (
+        <View className="flex-row items-center gap-2">
+          <ActivityIndicator
+            color={variant === 'ghost' || variant === 'social' ? '#000' : 'white'}
+          />
+          {typeof children === 'string' ? (
+            <RNText className={clsx('font-semibold text-base', textColor)}>{children}</RNText>
+          ) : (
+            children
+          )}
+        </View>
+      ) : typeof children === 'string' ? (
         <RNText className={clsx('font-semibold text-base', textColor)}>{children}</RNText>
+      ) : (
+        children
       )}
     </Pressable>
   );

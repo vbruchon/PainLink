@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { hslToHsla } from '@/utils/convert-hsl';
-import type { BodyRegionId } from '@/components/body-selector/regions';
 import { GProps } from 'react-native-svg';
+import { type BodyRegionId } from '@painlink/shared';
 
 type Params = {
   value: BodyRegionId | null;

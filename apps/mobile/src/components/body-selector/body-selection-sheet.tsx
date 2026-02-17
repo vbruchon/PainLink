@@ -11,9 +11,18 @@ type Props = {
   label: string | null;
   onClear: () => void;
   onSave: () => void;
+  error: string | null;
+  isSaving?: boolean;
 };
 
-export const BodySelectionSheet = ({ open, label, onClear, onSave }: Props) => {
+export const BodySelectionSheet = ({
+  open,
+  label,
+  onClear,
+  onSave,
+  error,
+  isSaving = false,
+}: Props) => {
   const sheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['25%'], []);
 
@@ -59,10 +68,16 @@ export const BodySelectionSheet = ({ open, label, onClear, onSave }: Props) => {
       }}
     >
       <BottomSheetView className="px-6 pt-2 pb-4 gap-3">
-        <Text variant="small" className="italic">
-          Zone sélectionnée
-        </Text>
-
+        <View className="flex-row gap-3 items-center ">
+          <Text variant="small" className="italic">
+            Zone sélectionnée
+          </Text>
+          {error ? (
+            <Text variant="caption" className="text-destructive">
+              {error}
+            </Text>
+          ) : null}
+        </View>
         {label ? (
           <SelectedChip label={label} onClear={handleClear} />
         ) : (
@@ -74,7 +89,7 @@ export const BodySelectionSheet = ({ open, label, onClear, onSave }: Props) => {
             Effacer
           </Button>
 
-          <Button className="flex-1" onPress={onSave} disabled={!label}>
+          <Button className="flex-1" onPress={onSave} disabled={!label} loading={isSaving}>
             Enregistrer
           </Button>
         </View>

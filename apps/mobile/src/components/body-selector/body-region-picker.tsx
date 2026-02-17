@@ -1,8 +1,9 @@
 import { View } from 'react-native';
 
-import type { BodyRegionId, BodySide } from '@/components/body-selector/regions';
 import { BodyFrontSvg } from '@/components/body-selector/svg/body-front';
 import { BodyBackSvg } from '@/components/body-selector/svg/body-back';
+import type { BodyRegionId } from '@painlink/shared';
+import type { BodySide } from '@/components/body-selector/body';
 
 type Props = {
   side: BodySide;

@@ -4,10 +4,21 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import { getRedirectForLayouts } from '@/lib/auth/guard';
 import { HapticTab } from '@/components/haptic-tab';
 import { useAuth } from '@/providers/auth-provider';
+import { useUser } from '@/hooks/use-user';
 
 export default function TabLayout() {
   const { status } = useAuth();
-  const redirect = getRedirectForLayouts({ status, inAuthGroup: false, inTabsGroup: true });
+
+  const { user, loading } = useUser();
+
+  const redirect = getRedirectForLayouts({
+    status,
+    inAuthGroup: false,
+    inTabsGroup: true,
+    inOnboardingGroup: false,
+    user,
+    userLoading: loading,
+  });
 
   if (redirect) return <Redirect href={redirect} />;
 

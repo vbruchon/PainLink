@@ -44,3 +44,6 @@ jobs:
 
       - name: Mobile unit tests
         run: pnpm --dir apps/mobile test
+
+      - name: Web unit tests
+        run: pnpm --dir apps/web test

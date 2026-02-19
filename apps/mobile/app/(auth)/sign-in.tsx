@@ -42,7 +42,7 @@ export default function SignInScreen() {
 
       <View className="absolute -bottom-8 left-0 right-0 items-center">
         <Image
-          source={require('../../assets/images/mascotte/Painlink_Nexi_Salue.png')}
+          source={require('../../src/assets/images/mascotte/Painlink_Nexi_Salue.png')}
           resizeMode="contain"
           className="size-[220px]"
           accessibilityIgnoresInvertColors

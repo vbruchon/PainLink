@@ -5,25 +5,41 @@
 
 import { Platform } from 'react-native';
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
-
 export const Colors = {
   light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
+    text: 'hsl(174 56% 14%)',
+    background: 'hsl(174 64% 91%)',
+    surface: 'hsl(0 0% 100%)',
+    muted: 'hsl(240 4% 46%)',
+    border: 'hsl(180 5% 81%)',
+
+    primary: 'hsl(173 70% 43%)',
+    secondary: 'hsl(183 98% 22%)',
+    accent: 'hsl(24 94% 61%)',
+    destructive: 'hsl(359 98% 62%)',
+
+    tint: 'hsl(173 70% 43%)',
+    icon: 'hsl(240 4% 46%)',
+    tabIconDefault: 'hsl(240 4% 46%)',
+    tabIconSelected: 'hsl(173 70% 43%)',
   },
   dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
+    // dark “sûr” (tu pourras peaufiner plus tard)
+    text: 'hsl(0 0% 98%)',
+    background: 'hsl(174 30% 10%)',
+    surface: 'hsl(174 25% 14%)',
+    muted: 'hsl(240 4% 70%)',
+    border: 'hsl(180 5% 30%)',
+
+    primary: 'hsl(173 70% 50%)',
+    secondary: 'hsl(183 98% 35%)',
+    accent: 'hsl(24 94% 61%)',
+    destructive: 'hsl(359 98% 62%)',
+
+    tint: 'hsl(173 70% 50%)',
+    icon: 'hsl(240 4% 70%)',
+    tabIconDefault: 'hsl(240 4% 70%)',
+    tabIconSelected: 'hsl(173 70% 50%)',
   },
 };
 

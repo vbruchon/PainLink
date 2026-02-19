@@ -1,14 +1,34 @@
-export type AuthStatus = 'loading' | 'guest' | 'authenticated';
+import type { Href } from 'expo-router';
 
-export function getRedirectForLayouts(params: {
-  status: AuthStatus;
+type Args = {
+  status: 'loading' | 'authenticated' | 'guest';
   inAuthGroup: boolean;
   inTabsGroup: boolean;
-}) {
-  const { status, inAuthGroup, inTabsGroup } = params;
+  inOnboardingGroup?: boolean;
+  user?: { mainPainZone: string | null } | null;
+  userLoading?: boolean;
+};
 
-  if (status === 'authenticated' && inAuthGroup) return '/(tabs)';
-  if (status !== 'authenticated' && inTabsGroup) return '/(auth)/welcome';
+export const getRedirectForLayouts = (args: Args): Href | null => {
+  const { status, inAuthGroup, inOnboardingGroup, user, userLoading } = args;
+
+  if (status === 'loading') return null;
+
+  if (status !== 'authenticated') {
+    if (!inAuthGroup) return '/(auth)/welcome';
+    return null;
+  }
+
+  if (userLoading) return null;
+
+  const needsOnboarding = !user?.mainPainZone;
+
+  if (needsOnboarding) {
+    if (!inOnboardingGroup) return '/onboarding/body-selector';
+    return null;
+  }
+
+  if (inAuthGroup) return '/(tabs)';
 
   return null;
-}
+};

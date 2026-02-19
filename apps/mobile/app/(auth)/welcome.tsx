@@ -15,24 +15,20 @@ const WelcomeScreen = () => {
     <Screen className="flex-1">
       <View className="flex-1 items-center justify-center px-8">
         <Image
-          source={require('../../assets/images/splash-icon.png')}
+          source={require('../../src/assets/images/splash-icon.png')}
           className="size-40"
           resizeMode="contain"
           accessibilityRole="image"
           accessibilityLabel="PainLink"
         />
-
         <View className="h-4" />
-
         <Text className="text-center text-base leading-6 text-teal-950/80">
           Bienvenue sur PainLink,{'\n'}
           L’application qui t’aide à suivre tes{'\n'}
           douleurs au quotidien et facilite la{'\n'}
           communication avec tes praticiens.
         </Text>
-
         <View className="h-10" />
-
         <View className="w-full max-w-[320px] gap-4">
           <Button className="h-12 rounded-full" onPress={() => router.push('/sign-in')}>
             Connexion

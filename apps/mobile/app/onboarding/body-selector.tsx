@@ -33,9 +33,16 @@ export default function BodySelectorScreen() {
 
       await updateMainPainZone(region);
 
-      router.replace('/(tabs)/test-auth');
-    } catch (e: any) {
-      setError(e?.message ?? "Impossible d'enregistrer");
+      router.replace('/(tabs)');
+    } catch (e: unknown) {
+      const message =
+        e instanceof Error
+          ? e.message
+          : typeof e === 'object' && e !== null && 'message' in e
+            ? String((e as { message: unknown }).message)
+            : "Impossible d'enregistrer";
+
+      setError(message ?? "Impossible d'enregistrer");
     } finally {
       setSaving(false);
     }

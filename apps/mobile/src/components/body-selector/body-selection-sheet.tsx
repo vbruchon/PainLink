@@ -1,6 +1,7 @@
 import { useMemo, useRef, useCallback, useEffect } from 'react';
 import { View } from 'react-native';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
@@ -25,6 +26,8 @@ export const BodySelectionSheet = ({
 }: Props) => {
   const sheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['25%'], []);
+  const insets = useSafeAreaInsets();
+  const bottomPadding = 32 + insets.bottom;
 
   useEffect(() => {
     const id = requestAnimationFrame(() => {
@@ -36,10 +39,7 @@ export const BodySelectionSheet = ({
 
   const handleClear = useCallback(() => {
     sheetRef.current?.close();
-
-    requestAnimationFrame(() => {
-      onClear();
-    });
+    requestAnimationFrame(() => onClear());
   }, [onClear]);
 
   const handleSheetChange = useCallback(
@@ -57,6 +57,7 @@ export const BodySelectionSheet = ({
       enablePanDownToClose
       animateOnMount={false}
       onChange={handleSheetChange}
+      detached
       backgroundStyle={{
         borderTopLeftRadius: 24,
         borderTopRightRadius: 24,
@@ -67,17 +68,19 @@ export const BodySelectionSheet = ({
         width: 40,
       }}
     >
-      <BottomSheetView className="px-6 pt-2 pb-4 gap-3">
-        <View className="flex-row gap-3 items-center ">
+      <BottomSheetView className="px-6 pt-2 gap-3" style={{ paddingBottom: bottomPadding }}>
+        <View className="flex-row gap-3 items-center">
           <Text variant="small" className="italic">
             Zone sélectionnée
           </Text>
+
           {error ? (
             <Text variant="caption" className="text-destructive">
               {error}
             </Text>
           ) : null}
         </View>
+
         {label ? (
           <SelectedChip label={label} onClear={handleClear} />
         ) : (

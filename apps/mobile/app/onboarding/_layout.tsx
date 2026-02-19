@@ -3,15 +3,15 @@ import { useAuth } from '@/providers/auth-provider';
 import { useUser } from '@/hooks/use-user';
 import { getRedirectForLayouts } from '@/lib/auth/guard';
 
-export default function AuthLayout() {
+export default function OnboardingLayout() {
   const { status } = useAuth();
   const { user, loading } = useUser();
 
   const redirect = getRedirectForLayouts({
     status,
-    inAuthGroup: true,
+    inAuthGroup: false,
     inTabsGroup: false,
-    inOnboardingGroup: false,
+    inOnboardingGroup: true,
     user,
     userLoading: loading,
   });

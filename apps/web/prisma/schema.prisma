@@ -21,6 +21,7 @@ model User {
   image         String?
 
   mainPainZone BodyRegionId?
+  painSpikes   PainSpike[]
 
   sessions Session[]
   accounts Account[]
@@ -29,6 +30,75 @@ model User {
   updatedAt DateTime @updatedAt
 
   @@map("user")
+}
+
+model PainSpike {
+  id     String @id @default(cuid())
+  userId String
+
+  status PainSpikeStatus @default(OPEN)
+
+  openedAt DateTime?
+  endedAt  DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  entries PainSpikeEntry[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status, createdAt])
+}
+
+model PainSpikeEntry {
+  id          String @id @default(cuid())
+  painSpikeId String
+
+  type       PainSpikeEntryType
+  occurredAt DateTime
+
+  intensity      PainIntensity
+  painTypes      PainType[]     @default([])
+  radiationZones BodyRegionId[] @default([])
+
+  // OPEN
+  startInfo String?
+  trigger   String?
+
+  // UPDATE/CLOSE
+  improvement String?
+  note        String?
+
+  createdAt DateTime @default(now())
+
+  painSpike PainSpike @relation(fields: [painSpikeId], references: [id], onDelete: Cascade)
+
+  @@index([painSpikeId, occurredAt])
+  @@index([occurredAt])
+}
+
+enum PainIntensity {
+  LIGHT
+  MODERATE
+  STRONG
+  VERY_STRONG
+}
+
+enum PainType {
+  COLD_SENSATION
+  HEAT_SENSATION
+  BURNING
+  PRESSURE_CRUSHING
+  HEAVINESS
+  TINGLING
+  ELECTRIC_SHOCK
+  STABBING
+  ITCHING
+  THROBBING
+  EXPLOSIVE
+  DIFFUSE
+  OTHER_UNSURE
 }
 
 enum BodyRegionId {
@@ -54,7 +124,18 @@ enum BodyRegionId {
   foot_right
 }
 
-//AUTH
+enum PainSpikeStatus {
+  OPEN
+  CLOSED
+}
+
+enum PainSpikeEntryType {
+  OPEN
+  UPDATE
+  CLOSE
+}
+
+//------------------ AUTH--------------------
 model Session {
   id        String   @id
   expiresAt DateTime

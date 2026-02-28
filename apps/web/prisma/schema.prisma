@@ -63,8 +63,8 @@ model PainSpikeEntry {
   radiationZones BodyRegionId[] @default([])
 
   // OPEN
-  startInfo String?
-  trigger   String?
+  episodeStart EpisodeStart?
+  trigger      Trigger?
 
   // UPDATE/CLOSE
   improvement String?
@@ -133,6 +133,28 @@ enum PainSpikeEntryType {
   OPEN
   UPDATE
   CLOSE
+}
+
+enum EpisodeStart {
+  NOW
+  MIN_15
+  HOUR_1
+  HOUR_3
+  TODAY_EARLIER
+  LAST_NIGHT
+  YESTERDAY
+}
+
+enum Trigger {
+  UNKNOWN
+  STRESS
+  EFFORT
+  POSTURE
+  MOVEMENT
+  EMOTION
+  WEATHER
+  FATIGUE
+  PHYSICAL_ACTIVITY
 }
 
 //------------------ AUTH--------------------

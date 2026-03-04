@@ -65,8 +65,6 @@ export default function TestAuth() {
           )}
         </View>
 
-        <View className="flex-1" />
-
         <Button variant="secondary" onPress={signOut}>
           Se déconnecter
         </Button>

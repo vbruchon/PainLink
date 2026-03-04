@@ -1,8 +1,21 @@
 import { authClient } from '@/lib/auth/auth-client';
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL;
-
 if (!BASE_URL) throw new Error('Missing EXPO_PUBLIC_API_URL');
+
+export class ApiError extends Error {
+  status: number;
+  code: string;
+  issues?: unknown;
+
+  constructor(args: { status: number; code: string; message?: string; issues?: unknown }) {
+    super(args.message ?? args.code);
+    this.name = 'ApiError';
+    this.status = args.status;
+    this.code = args.code;
+    this.issues = args.issues;
+  }
+}
 
 export const apiFetch = async <T>(path: string, options: RequestInit = {}): Promise<T> => {
   const cookies = authClient.getCookie();
@@ -17,10 +30,16 @@ export const apiFetch = async <T>(path: string, options: RequestInit = {}): Prom
     credentials: 'omit',
   });
 
+  const json = await res.json().catch(() => null);
+
   if (!res.ok) {
-    const json = await res.json().catch(() => null);
-    throw new Error(json?.error ?? `Request failed (${res.status})`);
+    throw new ApiError({
+      status: res.status,
+      code: json?.error ?? `HTTP_${res.status}`,
+      message: json?.error ?? `Request failed (${res.status})`,
+      issues: json?.issues,
+    });
   }
 
-  return res.json();
+  return json as T;
 };

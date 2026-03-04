@@ -15,6 +15,7 @@ module.exports = {
         primary: 'hsl(173 70% 43%)',
         secondary: 'hsl(183 98% 22%)',
         accent: 'hsl(24 94% 61%)',
+        accentSoft: 'hsl(24 80% 95%)',
         destructive: 'hsl(359 98% 62%)',
       },
       borderRadius: {

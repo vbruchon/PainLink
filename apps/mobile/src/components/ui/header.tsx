@@ -5,7 +5,7 @@ import { Text } from './text';
 
 export const Header = ({ title }: { title: string }) => {
   return (
-    <View className="flex-row items-center justify-center relative mb-8">
+    <View className="flex-row items-center justify-center relative">
       <TouchableOpacity onPress={() => router.back()} className="absolute left-0">
         <ChevronLeft size={24} color="hsl(174 56% 14%)" />
       </TouchableOpacity>

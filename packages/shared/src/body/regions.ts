@@ -46,19 +46,38 @@ export const BODY_REGION_LABEL: Record<BodyRegionId, string> = {
   foot_right: 'Pied droit',
 };
 
-export const BILATERAL_REGIONS: BodyRegionId[] = [
-  'shoulder_left',
-  'shoulder_right',
-  'upper_arm_left',
-  'upper_arm_right',
-  'lower_arm_left',
-  'lower_arm_right',
-  'hand_left',
-  'hand_right',
-  'thigh_left',
-  'thigh_right',
-  'lower_leg_left',
-  'lower_leg_right',
-  'foot_left',
-  'foot_right',
-];
+export type SectionKey = 'TETE' | 'BRAS' | 'TRONC' | 'JAMBES' | 'AUTRE';
+
+export const sectionTitle: Record<SectionKey, string> = {
+  TETE: 'Tête & cou',
+  BRAS: 'Bras',
+  TRONC: 'Tronc',
+  JAMBES: 'Jambes',
+  AUTRE: 'Autres',
+};
+
+export const getSectionKey = (id: BodyRegionId): SectionKey => {
+  const s = String(id);
+
+  if (s.includes('head') || s.includes('neck') || s.includes('face')) return 'TETE';
+  if (
+    s.includes('arm') ||
+    s.includes('hand') ||
+    s.includes('wrist') ||
+    s.includes('elbow') ||
+    s.includes('shoulder')
+  )
+    return 'BRAS';
+  if (s.includes('back') || s.includes('chest') || s.includes('abdomen') || s.includes('belly'))
+    return 'TRONC';
+  if (
+    s.includes('leg') ||
+    s.includes('knee') ||
+    s.includes('ankle') ||
+    s.includes('foot') ||
+    s.includes('thigh')
+  )
+    return 'JAMBES';
+
+  return 'AUTRE';
+};

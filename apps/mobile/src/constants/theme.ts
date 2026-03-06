@@ -9,22 +9,24 @@ export const Colors = {
   light: {
     text: 'hsl(174 56% 14%)',
     background: 'hsl(174 64% 91%)',
-    surface: 'hsl(0 0% 100%)',
+    foreground: 'hsl(0 0% 100%)',
     muted: 'hsl(240 4% 46%)',
     border: 'hsl(180 5% 81%)',
 
     primary: 'hsl(173 70% 43%)',
     secondary: 'hsl(183 98% 22%)',
     accent: 'hsl(24 94% 61%)',
+    accentSoft: 'hsl(24 80% 95%)',
+
     destructive: 'hsl(359 98% 62%)',
 
     tint: 'hsl(173 70% 43%)',
     icon: 'hsl(240 4% 46%)',
+    tabBar: 'hsl(180 65% 75%)',
     tabIconDefault: 'hsl(240 4% 46%)',
     tabIconSelected: 'hsl(173 70% 43%)',
   },
   dark: {
-    // dark “sûr” (tu pourras peaufiner plus tard)
     text: 'hsl(0 0% 98%)',
     background: 'hsl(174 30% 10%)',
     surface: 'hsl(174 25% 14%)',

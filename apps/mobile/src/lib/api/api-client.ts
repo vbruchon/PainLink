@@ -1,7 +1,7 @@
 import { authClient } from '@/lib/auth/auth-client';
+import { ApiError } from './api-error';
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL;
-
 if (!BASE_URL) throw new Error('Missing EXPO_PUBLIC_API_URL');
 
 export const apiFetch = async <T>(path: string, options: RequestInit = {}): Promise<T> => {
@@ -17,10 +17,16 @@ export const apiFetch = async <T>(path: string, options: RequestInit = {}): Prom
     credentials: 'omit',
   });
 
+  const json = await res.json().catch(() => null);
+
   if (!res.ok) {
-    const json = await res.json().catch(() => null);
-    throw new Error(json?.error ?? `Request failed (${res.status})`);
+    throw new ApiError({
+      status: res.status,
+      code: json?.error ?? `HTTP_${res.status}`,
+      message: json?.error ?? `Request failed (${res.status})`,
+      issues: json?.issues,
+    });
   }
 
-  return res.json();
+  return json as T;
 };

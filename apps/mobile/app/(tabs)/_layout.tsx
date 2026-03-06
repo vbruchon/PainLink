@@ -1,14 +1,13 @@
-import { Redirect, Tabs } from 'expo-router';
-
-import { IconSymbol } from '@/components/ui/icon-symbol';
+import { Href, Redirect, Tabs, useRouter } from 'expo-router';
+import { Home, Code2 } from 'lucide-react-native';
 import { getRedirectForLayouts } from '@/lib/auth/guard';
-import { HapticTab } from '@/components/haptic-tab';
 import { useAuth } from '@/providers/auth-provider';
 import { useUser } from '@/hooks/use-user';
+import { TabBar } from '@/components/ui/tab-bar/tab-bar';
 
 export default function TabLayout() {
+  const router = useRouter();
   const { status } = useAuth();
-
   const { user, loading } = useUser();
 
   const redirect = getRedirectForLayouts({
@@ -25,16 +24,29 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: 'hsl(173 70% 43%)',
         headerShown: false,
-        tabBarButton: HapticTab,
+        tabBarShowLabel: false,
+        tabBarStyle: { position: 'absolute', backgroundColor: 'transparent', borderTopWidth: 0 },
       }}
+      tabBar={(props) => <TabBar {...props} onHref={(href) => router.push(href as Href)} />}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: 'Accueil',
+          tabBarIcon: ({ color, focused }) => (
+            <Home size={24} color={color} strokeWidth={focused ? 2.6 : 2} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="test-auth"
+        options={{
+          title: 'Test',
+          tabBarIcon: ({ color, focused }) => (
+            <Code2 size={24} color={color} strokeWidth={focused ? 2.6 : 2} />
+          ),
         }}
       />
     </Tabs>

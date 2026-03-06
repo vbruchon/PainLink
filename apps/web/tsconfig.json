@@ -29,7 +29,8 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts",
-    "jest.config.mjs"
+    "jest.config.mjs",
+    "../mobile/__tests__/guard-open-pain-spike.test.ts"
   ],
   "exclude": ["node_modules"]
 }

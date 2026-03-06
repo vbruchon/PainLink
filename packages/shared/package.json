@@ -4,7 +4,10 @@
   "private": true,
   "main": "src/index.ts",
   "types": "src/index.ts",
-  "dependencies": {
-    "zod": "^3.25.76"
+  "peerDependencies": {
+    "zod": "^4.3.5"
+  },
+  "devDependencies": {
+    "zod": "^4.3.5"
   }
 }

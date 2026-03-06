@@ -1,4 +1,3 @@
-import React from 'react';
 import { Pressable, Text as RNText, ActivityIndicator, View } from 'react-native';
 import { clsx } from 'clsx';
 
@@ -29,7 +28,7 @@ export const Button = ({
   const variants: Record<ButtonVariant, string> = {
     primary: 'bg-primary',
     secondary: 'bg-secondary',
-    ghost: 'bg-transparent',
+    ghost: 'bg-transparent border border-muted bg-white',
     social: 'bg-primary/10',
   };
 
@@ -39,7 +38,7 @@ export const Button = ({
   };
 
   const textColor =
-    variant === 'ghost' ? 'text-primary' : variant === 'social' ? 'text-primary' : 'text-white';
+    variant === 'ghost' ? 'text-text' : variant === 'social' ? 'text-primary' : 'text-white';
 
   const showSpinner = loading;
 

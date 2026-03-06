@@ -15,6 +15,7 @@ import { DetailsStep } from '@/features/pain-spike/open/steps/details-step';
 
 import { useOpenPainSpikeFlow } from '@/features/pain-spike/open/open-pain-spike-flow';
 import { usePainSpikeController } from '@/features/pain-spike/controller/use-pain-spike-controller';
+import { Text } from '@/components/ui/text';
 
 export default function OpenPainSpikeScreen() {
   const insets = useSafeAreaInsets();
@@ -22,6 +23,7 @@ export default function OpenPainSpikeScreen() {
   const { form } = useOpenPainSpikeFlow();
 
   const {
+    isChecking,
     step,
     stepIndex,
     isSubmitting,
@@ -48,6 +50,17 @@ export default function OpenPainSpikeScreen() {
         return <DetailsStep form={form} />;
     }
   };
+
+  if (isChecking) {
+    return (
+      <Screen>
+        <Header title="Ajouter un pic de douleur" />
+        <View className="flex-1 items-center justify-center">
+          <Text variant="body">Vérification…</Text>
+        </View>
+      </Screen>
+    );
+  }
 
   return (
     <Screen>

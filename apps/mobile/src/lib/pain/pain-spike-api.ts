@@ -7,3 +7,12 @@ export const openPainSpike = (input: OpenPainSpikeInput) => {
     body: JSON.stringify(input),
   });
 };
+
+export type PainSpikeStatus = {
+  hasOpen: boolean;
+  openId: string | null;
+};
+
+export const getPainSpikeStatus = () => {
+  return apiFetch<PainSpikeStatus>('/api/pain-spike/status');
+};

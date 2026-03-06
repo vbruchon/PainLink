@@ -5,11 +5,13 @@ import * as Haptics from 'expo-haptics';
 import { ChevronRight, Plus, Code2, Droplet } from 'lucide-react-native';
 import { Text } from '@/components/ui/text';
 import type { LucideIcon } from 'lucide-react-native';
+import { usePainSpikeStatus } from '@/features/pain-spike/hooks/use-pain-spike-status';
 
 type ActionItem = {
   label: string;
   icon: LucideIcon;
   href: string;
+  disabled?: boolean;
 };
 
 const ACTIONS: ActionItem[] = [
@@ -37,6 +39,20 @@ export const TabBarAddItem = ({ theme, barBottomOffset, onOpenChange, onNavigate
 
   const [open, setOpen] = useState(false);
   const anim = useRef(new Animated.Value(0)).current;
+  const { hasOpen, loading } = usePainSpikeStatus(open);
+
+  const actions = useMemo(() => {
+    return ACTIONS.map((a) => {
+      if (a.href === '/(user-action)/open-pain-spike') {
+        return {
+          ...a,
+          disabled: loading || hasOpen,
+        };
+      }
+
+      return a;
+    });
+  }, [hasOpen, loading]);
 
   useEffect(() => {
     onOpenChange?.(open);
@@ -97,19 +113,25 @@ export const TabBarAddItem = ({ theme, barBottomOffset, onOpenChange, onNavigate
             ]}
             className="absolute left-4 right-4 rounded-2xl py-2 shadow-lg"
           >
-            {ACTIONS.map((a) => {
+            {actions.map((a) => {
               const Icon = a.icon;
 
               return (
                 <Pressable
                   key={a.label}
-                  onPress={() => runAction(a)}
-                  className="flex-row items-center gap-2.5 px-4 py-3"
+                  onPress={() => !a.disabled && runAction(a)}
+                  disabled={a.disabled}
+                  className={`flex-row items-center gap-2.5 px-4 py-3 ${
+                    a.disabled ? 'opacity-40' : ''
+                  }`}
                 >
                   <View className="h-7 w-7 items-center justify-center rounded-lg">
                     <Icon size={18} color={theme.secondary} strokeWidth={2.5} />
                   </View>
-                  <Text>{a.label}</Text>
+                  <Text>
+                    {a.label}
+                    {a.disabled ? ' (En cours)' : ''}
+                  </Text>
 
                   <View className="ml-auto opacity-70">
                     <ChevronRight size={18} color={theme.muted} strokeWidth={2.5} />

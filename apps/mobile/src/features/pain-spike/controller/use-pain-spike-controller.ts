@@ -6,6 +6,7 @@ import { goSuccessScreen } from '@/features/feedback/variants/navigation';
 import { mapOpenPainSpike } from '@/features/pain-spike/open/mappers';
 import { hapticWarning } from '@/lib/haptics/haptics';
 import { handleOpenPainSpikeError } from '../errors/handle-pain-spike-error';
+import { useGuardOpenPainSpike } from '../hooks/use-guard-open-pain-spike';
 
 type Step = 'INTENSITY' | 'TYPES' | 'RADIATION' | 'DETAILS';
 
@@ -14,6 +15,7 @@ const STEPS: Step[] = ['INTENSITY', 'TYPES', 'RADIATION', 'DETAILS'];
 export function usePainSpikeController(form: any) {
   const router = useRouter();
 
+  const { isChecking } = useGuardOpenPainSpike();
   const [stepIndex, setStepIndex] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -100,6 +102,7 @@ export function usePainSpikeController(form: any) {
       : { label: 'Précédent', onPress: goPrev, variant: 'outline' as const };
 
   return {
+    isChecking,
     step,
     stepIndex,
     isSubmitting,

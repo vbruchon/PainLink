@@ -6,6 +6,7 @@ import { useSession } from '@/lib/auth/auth-client';
 import { useAuth } from '@/providers/auth-provider';
 import { getUser } from '@/lib/user/user-api';
 import { useEffect, useState } from 'react';
+import { getPainSpikeStatus } from '@/lib/pain/pain-spike-api';
 
 type User = {
   id: string;
@@ -20,12 +21,19 @@ export default function TestAuth() {
 
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [painSpikeStatus, setPainSpikeStatus] = useState<{
+    hasOpen: boolean;
+    openId: string | null;
+  } | null>(null);
 
   useEffect(() => {
     const load = async () => {
       try {
         const me = await getUser();
         setUser(me);
+
+        const status = await getPainSpikeStatus();
+        setPainSpikeStatus(status);
       } finally {
         setLoading(false);
       }
@@ -62,6 +70,21 @@ export default function TestAuth() {
             </>
           ) : (
             <Text>Aucun utilisateur récupéré</Text>
+          )}
+        </View>
+
+        <View className="bg-card rounded-2xl p-5 gap-2 border">
+          <Text className="text-sm opacity-60">Pain Spike Status</Text>
+
+          {loading ? (
+            <Text>Chargement...</Text>
+          ) : painSpikeStatus ? (
+            <>
+              <Text>Has open spike : {painSpikeStatus.hasOpen ? 'Oui' : 'Non'}</Text>
+              <Text>Open id : {painSpikeStatus.openId ?? 'Aucun'}</Text>
+            </>
+          ) : (
+            <Text>Impossible de récupérer le statut</Text>
           )}
         </View>
 

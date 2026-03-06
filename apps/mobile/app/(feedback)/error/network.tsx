@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Image, View } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Href, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Screen } from '@/components/ui/screen';
@@ -24,14 +24,14 @@ export default function NetworkErrorScreen() {
 
   const onRetry = () => {
     if (typeof retryTo === 'string' && retryTo.length > 0) {
-      router.replace(retryTo as any);
+      router.replace(retryTo as Href);
       return;
     }
     router.back();
   };
 
   const onHome = () => {
-    router.replace('/(tabs)' as any);
+    router.replace('/(tabs)' as Href);
   };
 
   return (

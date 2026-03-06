@@ -16,7 +16,7 @@ type RenderArgs<V> = {
   errorMessage: string | null;
 };
 
-type Props<T extends FieldValues, V = any> = {
+type Props<T extends FieldValues, V = unknown> = {
   control: Control<T>;
   name: Path<T>;
 
@@ -30,7 +30,7 @@ type Props<T extends FieldValues, V = any> = {
   render: (args: RenderArgs<V>) => React.ReactNode;
 };
 
-export const FormControlField = <T extends FieldValues, V = any>({
+export const FormControlField = <T extends FieldValues, V = unknown>({
   control,
   name,
   label,

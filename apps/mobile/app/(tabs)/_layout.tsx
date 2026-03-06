@@ -1,4 +1,4 @@
-import { Redirect, Tabs, useRouter } from 'expo-router';
+import { Href, Redirect, Tabs, useRouter } from 'expo-router';
 import { Home, Code2 } from 'lucide-react-native';
 import { getRedirectForLayouts } from '@/lib/auth/guard';
 import { useAuth } from '@/providers/auth-provider';
@@ -28,7 +28,7 @@ export default function TabLayout() {
         tabBarShowLabel: false,
         tabBarStyle: { position: 'absolute', backgroundColor: 'transparent', borderTopWidth: 0 },
       }}
-      tabBar={(props) => <TabBar {...props} onHref={(href) => router.push(href as any)} />}
+      tabBar={(props) => <TabBar {...props} onHref={(href) => router.push(href as Href)} />}
     >
       <Tabs.Screen
         name="index"

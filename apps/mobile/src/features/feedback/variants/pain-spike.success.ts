@@ -1,4 +1,5 @@
 import { SuccessId, type SuccessVariant } from './types';
+import NexiPainSpike from '@/assets/images/mascotte/Painlink_Nexi_Pain_Spike.png';
 
 const goToHome = '/(tabs)';
 const defaultDelay = 5000;
@@ -11,6 +12,6 @@ export const painSpikeSuccessVariants: Record<SuccessId, SuccessVariant> = {
     ctaLabel: 'Retour à l’accueil',
     autoRedirectMs: defaultDelay,
     redirectTo: goToHome,
-    nexiImage: require('@/assets/images/mascotte/Painlink_Nexi_Pain_Spike.png'),
+    nexiImage: NexiPainSpike,
   },
 };

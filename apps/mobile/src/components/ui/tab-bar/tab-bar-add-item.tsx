@@ -6,6 +6,7 @@ import { ChevronRight, Plus, Code2, Droplet } from 'lucide-react-native';
 import { Text } from '@/components/ui/text';
 import type { LucideIcon } from 'lucide-react-native';
 import { usePainSpikeStatus } from '@/features/pain-spike/hooks/use-pain-spike-status';
+import { TabBarTheme } from './tab-bar-item';
 
 type ActionItem = {
   label: string;
@@ -28,7 +29,7 @@ const ACTIONS: ActionItem[] = [
 ];
 
 type Props = {
-  theme: any;
+  theme: TabBarTheme;
   barBottomOffset: number;
   onOpenChange?: (open: boolean) => void;
   onNavigate: (href: string) => void;
@@ -77,17 +78,13 @@ export const TabBarAddItem = ({ theme, barBottomOffset, onOpenChange, onNavigate
 
   const close = () => setOpen(false);
 
-  const toggle = async () => {
-    try {
-      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    } catch {}
+  const toggle = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setOpen((v) => !v);
   };
 
-  const runAction = async (a: ActionItem) => {
-    try {
-      await Haptics.selectionAsync();
-    } catch {}
+  const runAction = (a: ActionItem) => {
+    Haptics.selectionAsync();
     close();
     onNavigate(a.href);
   };

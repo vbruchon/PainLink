@@ -1,6 +1,7 @@
 import { Image, View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { StepBar } from './step-bar';
+import NexiThinker from '@/assets/images/mascotte/PainLink_Nexi_Thinker.png';
 
 type Props = {
   step: number;
@@ -14,7 +15,7 @@ export const StepIndicator = ({ step, total }: Props) => {
     <View className="relative pb-2 ">
       <View className="h-24 w-28 z-10 items-center justify-center overflow-hidden">
         <Image
-          source={require('../../../assets/images/mascotte/PainLink_Nexi_Thinker.png')}
+          source={NexiThinker}
           resizeMode="contain"
           className="absolute -top-2 size-36"
           accessibilityIgnoresInvertColors

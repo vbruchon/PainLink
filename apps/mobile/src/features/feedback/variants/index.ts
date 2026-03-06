@@ -1,5 +1,6 @@
 import type { SuccessVariant, SuccessId } from './types';
 import { painSpikeSuccessVariants } from './pain-spike.success';
+import HappyNexi from '@/assets/images/mascotte/Painlink_Nexi_Heureux.png';
 
 export const SUCCESS_VARIANTS: Record<SuccessId | 'default', SuccessVariant> = {
   ...painSpikeSuccessVariants,
@@ -9,6 +10,6 @@ export const SUCCESS_VARIANTS: Record<SuccessId | 'default', SuccessVariant> = {
     ctaLabel: 'Retour à l’accueil',
     autoRedirectMs: 5000,
     redirectTo: '/(tabs)',
-    nexiImage: require('@/assets/images/mascotte/Painlink_Nexi_Heureux.png'),
+    nexiImage: HappyNexi,
   },
 };

@@ -1,18 +1,19 @@
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
-import { useWatch } from 'react-hook-form';
+import { UseFormReturn, useWatch } from 'react-hook-form';
 import { openPainSpike } from '@/lib/pain/pain-spike-api';
 import { goSuccessScreen } from '@/features/feedback/variants/navigation';
 import { mapOpenPainSpike } from '@/features/pain-spike/open/mappers';
 import { hapticWarning } from '@/lib/haptics/haptics';
 import { handleOpenPainSpikeError } from '../errors/handle-pain-spike-error';
 import { useGuardOpenPainSpike } from '../hooks/use-guard-open-pain-spike';
+import { OpenPainSpikeFormValues } from '../open/open-pain-spike-flow';
 
 type Step = 'INTENSITY' | 'TYPES' | 'RADIATION' | 'DETAILS';
 
 const STEPS: Step[] = ['INTENSITY', 'TYPES', 'RADIATION', 'DETAILS'];
 
-export function usePainSpikeController(form: any) {
+export function usePainSpikeController(form: UseFormReturn<OpenPainSpikeFormValues>) {
   const router = useRouter();
 
   const { isChecking } = useGuardOpenPainSpike();

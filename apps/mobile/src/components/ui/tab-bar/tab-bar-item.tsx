@@ -4,9 +4,15 @@ import * as Haptics from 'expo-haptics';
 import { Text } from '@/components/ui/text';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 
+export type TabBarTheme = {
+  surface?: string;
+  secondary: string;
+  muted: string;
+};
+
 type Props = {
   routeKey: string;
-  theme: any;
+  theme: TabBarTheme;
 
   state: BottomTabBarProps['state'];
   descriptors: BottomTabBarProps['descriptors'];
@@ -39,9 +45,7 @@ export const TabBarItem = ({
   const onPress = async () => {
     onAnyPress?.();
 
-    try {
-      await Haptics.selectionAsync();
-    } catch {}
+    await Haptics.selectionAsync();
 
     const event = navigation.emit({
       type: 'tabPress',

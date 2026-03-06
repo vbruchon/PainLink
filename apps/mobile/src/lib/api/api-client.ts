@@ -1,21 +1,8 @@
 import { authClient } from '@/lib/auth/auth-client';
+import { ApiError } from './api-error';
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL;
 if (!BASE_URL) throw new Error('Missing EXPO_PUBLIC_API_URL');
-
-export class ApiError extends Error {
-  status: number;
-  code: string;
-  issues?: unknown;
-
-  constructor(args: { status: number; code: string; message?: string; issues?: unknown }) {
-    super(args.message ?? args.code);
-    this.name = 'ApiError';
-    this.status = args.status;
-    this.code = args.code;
-    this.issues = args.issues;
-  }
-}
 
 export const apiFetch = async <T>(path: string, options: RequestInit = {}): Promise<T> => {
   const cookies = authClient.getCookie();

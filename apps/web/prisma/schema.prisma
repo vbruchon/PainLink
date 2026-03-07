@@ -39,8 +39,8 @@ model PainSpike {
 
   status PainSpikeStatus @default(OPEN)
 
-  openedAt DateTime?
-  endedAt  DateTime?
+  openedAt DateTime
+  closedAt DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -64,8 +64,7 @@ model PainSpikeEntry {
   radiationZones BodyRegionId[] @default([])
 
   // OPEN
-  episodeStart EpisodeStart?
-  trigger      Trigger?
+  trigger Trigger?
 
   // UPDATE/CLOSE
   improvement String?
@@ -76,6 +75,7 @@ model PainSpikeEntry {
   painSpike PainSpike @relation(fields: [painSpikeId], references: [id], onDelete: Cascade)
 
   @@index([painSpikeId, occurredAt])
+  @@index([painSpikeId, type])
   @@index([occurredAt])
 }
 
@@ -134,16 +134,6 @@ enum PainSpikeEntryType {
   OPEN
   UPDATE
   CLOSE
-}
-
-enum EpisodeStart {
-  NOW
-  MIN_15
-  HOUR_1
-  HOUR_3
-  TODAY_EARLIER
-  LAST_NIGHT
-  YESTERDAY
 }
 
 enum Trigger {

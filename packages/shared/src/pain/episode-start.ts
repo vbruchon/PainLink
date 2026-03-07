@@ -1,4 +1,4 @@
-export const EPISODE_START_IDS = [
+export const EPISODE_START_PRESETS = [
   'NOW',
   'MIN_15',
   'HOUR_1',
@@ -8,9 +8,9 @@ export const EPISODE_START_IDS = [
   'YESTERDAY',
 ] as const;
 
-export type EpisodeStartId = (typeof EPISODE_START_IDS)[number];
+export type EpisodeStartPreset = (typeof EPISODE_START_PRESETS)[number];
 
-export const EPISODE_START_LABEL: Record<EpisodeStartId, string> = {
+export const EPISODE_START_LABEL: Record<EpisodeStartPreset, string> = {
   NOW: 'Maintenant',
   MIN_15: 'Il y a 15 min',
   HOUR_1: 'Il y a 1 h',

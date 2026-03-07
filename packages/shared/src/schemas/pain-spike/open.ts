@@ -2,19 +2,18 @@ import { z } from 'zod';
 import { BODY_REGION_IDS } from '../../body/regions';
 import { PAIN_INTENSITY_IDS } from '../../pain/intensity';
 import { PAIN_TYPE_IDS } from '../../pain/types';
-import { EPISODE_START_IDS } from '../../pain/episode-start';
+import { EPISODE_START_PRESETS } from '../../pain/episode-start';
 import { TRIGGER_IDS } from '../../pain/trigger';
 
 const PainIntensityEnum = z.enum(PAIN_INTENSITY_IDS);
 const PainTypeEnum = z.enum(PAIN_TYPE_IDS);
 const BodyRegionEnum = z.enum(BODY_REGION_IDS);
-const EpisodeStartEnum = z.enum(EPISODE_START_IDS);
+const EpisodeStartEnum = z.enum(EPISODE_START_PRESETS);
 const TriggerEnum = z.enum(TRIGGER_IDS);
 
 export const openPainSpikeSchema = z.object({
-  occurredAt: z.coerce.date().optional(),
   intensity: PainIntensityEnum,
-  painTypes: z.array(PainTypeEnum).default([]),
+  painTypes: z.array(PainTypeEnum).min(1),
   radiationZones: z.array(BodyRegionEnum).default([]),
 
   episodeStart: EpisodeStartEnum.default('NOW'),

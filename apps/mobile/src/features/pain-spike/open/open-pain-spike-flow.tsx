@@ -3,7 +3,7 @@ import { useForm, type UseFormReturn } from 'react-hook-form';
 
 import type {
   BodyRegionId,
-  EpisodeStartId,
+  EpisodeStartPreset,
   PainIntensityId,
   PainTypeId,
   TriggerId,
@@ -16,7 +16,7 @@ export type OpenPainSpikeFormValues = {
   radiates: boolean | null;
   radiationZones: BodyRegionId[];
 
-  episodeStart: EpisodeStartId;
+  episodeStart: EpisodeStartPreset;
   trigger: TriggerId;
 
   note: string;

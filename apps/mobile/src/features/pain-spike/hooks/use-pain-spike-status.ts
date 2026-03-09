@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ApiError } from '@/lib/api/api-client';
+import { ApiError } from '@/lib/api/api-error';
 import { getPainSpikeStatus } from '@/lib/pain/pain-spike-api';
 
 type State = {

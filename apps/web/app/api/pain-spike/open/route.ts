@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
 import { openPainSpike, PainSpikeAlreadyOpenError } from '@/services/pain-spike/open';
-import { OpenPainSpikeInput } from '@painlink/shared';
 import { ZodError } from 'zod';
 
 export async function POST(req: Request) {
@@ -12,8 +11,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const user = session.user;
-  let body: OpenPainSpikeInput;
+  let body: unknown;
 
   try {
     body = await req.json();
@@ -22,7 +20,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const result = await openPainSpike(user.id, body);
+    const result = await openPainSpike(session.user.id, body);
 
     return NextResponse.json(result, { status: 201 });
   } catch (err) {

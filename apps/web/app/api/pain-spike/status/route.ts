@@ -14,9 +14,54 @@ export async function GET() {
 
   const open = await prisma.painSpike.findFirst({
     where: { userId, status: 'OPEN' },
-    select: { id: true },
     orderBy: { createdAt: 'desc' },
+    select: {
+      id: true,
+      status: true,
+      openedAt: true,
+      closedAt: true,
+      createdAt: true,
+      updatedAt: true,
+      entries: {
+        where: { type: 'OPEN' },
+        orderBy: { createdAt: 'asc' },
+        take: 1,
+        select: {
+          id: true,
+          type: true,
+          occurredAt: true,
+          intensity: true,
+          painTypes: true,
+          radiationZones: true,
+          trigger: true,
+          note: true,
+          createdAt: true,
+        },
+      },
+    },
   });
 
-  return NextResponse.json({ hasOpen: !!open, openId: open?.id ?? null }, { status: 200 });
+  if (!open) {
+    return NextResponse.json(
+      {
+        hasOpen: false,
+        openId: null,
+        openedAt: null,
+        closedAt: null,
+        entry: null,
+      },
+      { status: 200 },
+    );
+  }
+
+  return NextResponse.json(
+    {
+      hasOpen: true,
+      openId: open.id,
+      openedAt: open.openedAt,
+      closedAt: open.closedAt,
+      entry: open.entries[0] ?? null,
+    },
+    { status: 200 },
+  );
 }

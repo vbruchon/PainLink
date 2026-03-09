@@ -1,5 +1,6 @@
-import prisma from '@/lib/prisma';
+import { resolveOccurredAtFromEpisodeStart } from '@/lib/pain-spike/resolve-occurred-at';
 import { OpenPainSpikeInput, openPainSpikeSchema } from '@painlink/shared';
+import prisma from '@/lib/prisma';
 
 export class PainSpikeAlreadyOpenError extends Error {
   constructor() {
@@ -13,7 +14,7 @@ export type OpenPainSpikeResult = {
     id: string;
     status: 'OPEN';
     openedAt: Date;
-    endedAt: Date | null;
+    closedAt: Date | null;
     createdAt: Date;
     updatedAt: Date;
   };
@@ -24,8 +25,7 @@ export type OpenPainSpikeResult = {
     intensity: OpenPainSpikeInput['intensity'];
     painTypes: OpenPainSpikeInput['painTypes'];
     radiationZones: OpenPainSpikeInput['radiationZones'];
-    episodeStart: string | null;
-    trigger: string | null;
+    trigger: OpenPainSpikeInput['trigger'];
     createdAt: Date;
     note: string | null;
   };
@@ -33,10 +33,10 @@ export type OpenPainSpikeResult = {
 
 export const openPainSpike = async (
   userId: string,
-  rawInput: OpenPainSpikeInput,
+  rawInput: unknown,
 ): Promise<OpenPainSpikeResult> => {
   const data = openPainSpikeSchema.parse(rawInput);
-  const occurredAt = data.occurredAt ?? new Date();
+  const occurredAt = resolveOccurredAtFromEpisodeStart(data.episodeStart);
 
   return prisma.$transaction(async (tx) => {
     const existing = await tx.painSpike.findFirst({
@@ -56,7 +56,7 @@ export const openPainSpike = async (
         id: true,
         status: true,
         openedAt: true,
-        endedAt: true,
+        closedAt: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -67,13 +67,10 @@ export const openPainSpike = async (
         painSpikeId: painSpike.id,
         type: 'OPEN',
         occurredAt,
-
         intensity: data.intensity,
         painTypes: data.painTypes,
         radiationZones: data.radiationZones,
-
-        episodeStart: data.episodeStart ?? null,
-        trigger: data.trigger ?? null,
+        trigger: data.trigger,
         note: data.note ?? null,
       },
       select: {
@@ -83,7 +80,6 @@ export const openPainSpike = async (
         intensity: true,
         painTypes: true,
         radiationZones: true,
-        episodeStart: true,
         trigger: true,
         createdAt: true,
         note: true,

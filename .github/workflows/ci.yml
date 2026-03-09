@@ -33,6 +33,7 @@ jobs:
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/painlink_test
       NODE_ENV: test
+      TZ: Europe/Paris
 
     steps:
       - name: Checkout
@@ -64,5 +65,8 @@ jobs:
       - name: Mobile unit tests
         run: pnpm --dir apps/mobile test
 
+      - name: Prepare test database
+        run: pnpm --dir apps/web test:db:push
+
       - name: Web unit tests
-        run: pnpm --dir apps/web test
+        run: pnpm --dir apps/web test:run

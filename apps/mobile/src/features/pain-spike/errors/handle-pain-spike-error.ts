@@ -1,5 +1,5 @@
 import { goNetworkErrorScreen } from '@/features/feedback/variants/navigation';
-import { ApiError } from '@/lib/api/api-client';
+import { ApiError } from '@/lib/api/api-error';
 import { Alert } from 'react-native';
 
 export function handleOpenPainSpikeError(err: unknown) {

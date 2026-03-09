@@ -29,10 +29,16 @@ describe('GET /api/pain-spike/status', () => {
     const res = await GET();
 
     expect(res.status).toBe(200);
-    await expect(res.json()).resolves.toEqual({ hasOpen: false, openId: null });
+    await expect(res.json()).resolves.toEqual({
+      hasOpen: false,
+      openId: null,
+      openedAt: null,
+      closedAt: null,
+      entry: null,
+    });
   });
 
-  test('200 hasOpen true and openId when an open spike exists (real DB)', async () => {
+  test('200 returns open spike details when an open spike exists (real DB)', async () => {
     await createUser({ id: 'u1' });
     await createOpenPainSpike({ userId: 'u1', id: 'spike-1' });
     mockAuthenticatedUser('u1');
@@ -40,10 +46,28 @@ describe('GET /api/pain-spike/status', () => {
     const res = await GET();
 
     expect(res.status).toBe(200);
-    await expect(res.json()).resolves.toEqual({ hasOpen: true, openId: 'spike-1' });
 
-    // petit assert bonus: on s'assure qu'il existe bien
-    const inDb = await prisma.painSpike.findUnique({ where: { id: 'spike-1' } });
+    const json = await res.json();
+
+    expect(json.hasOpen).toBe(true);
+    expect(json.openId).toBe('spike-1');
+    expect(json.openedAt).toBeTruthy();
+    expect(json.closedAt).toBeNull();
+
+    expect(json.entry).toBeTruthy();
+    expect(json.entry.type).toBe('OPEN');
+    expect(json.entry.intensity).toBe('LIGHT');
+    expect(json.entry.painTypes).toEqual(['OTHER_UNSURE']);
+    expect(json.entry.radiationZones).toEqual([]);
+    expect(json.entry.trigger).toBe('UNKNOWN');
+    expect(json.entry.note).toBeNull();
+
+    expect(json.openedAt).toBe(json.entry.occurredAt);
+
+    const inDb = await prisma.painSpike.findUnique({
+      where: { id: 'spike-1' },
+    });
+
     expect(inDb?.status).toBe('OPEN');
   });
 });

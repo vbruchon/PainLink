@@ -8,11 +8,24 @@ export const openPainSpike = (input: OpenPainSpikeInput) => {
   });
 };
 
-export type PainSpikeStatus = {
+export type PainSpikeStatusResponse = {
   hasOpen: boolean;
   openId: string | null;
+  openedAt: string | null;
+  closedAt: string | null;
+  entry: {
+    id: string;
+    type: 'OPEN' | 'UPDATE' | 'CLOSE';
+    occurredAt: string;
+    intensity: string;
+    painTypes: string[];
+    radiationZones: string[];
+    trigger: string | null;
+    note: string | null;
+    createdAt: string;
+  } | null;
 };
 
-export const getPainSpikeStatus = () => {
-  return apiFetch<PainSpikeStatus>('/api/pain-spike/status');
-};
+export async function getPainSpikeStatus() {
+  return apiFetch<PainSpikeStatusResponse>('/api/pain-spike/status');
+}
